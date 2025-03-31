@@ -1,8 +1,12 @@
-use std::collections::HashMap;
-
-use crate::player::Player;
 use rand::rng;
 use rand::seq::SliceRandom;
+use thiserror::Error;
+
+#[derive(Debug, Error)]
+pub enum DeckError {
+    #[error("The deck is empty!")]
+    EmptyDeck,
+}
 
 pub struct Deck {
     pub cards: Vec<Card>,
@@ -10,7 +14,7 @@ pub struct Deck {
 
 impl Deck {
     pub fn new() -> Self {
-        Self {
+        Deck {
             cards: vec![
                 // init hearts
                 Card {
@@ -233,13 +237,13 @@ impl Deck {
         self.cards.shuffle(&mut rng());
     }
 
-    pub fn distribute_cards(&mut self, players: HashMap<u8, Player>) {
-        // give each player 2 cards one at a time
+    pub fn draw_card(&mut self) -> Result<Card, DeckError> {
+        self.cards.pop().ok_or_else(|| DeckError::EmptyDeck)
     }
 }
 
 #[derive(Debug)]
-enum Suit {
+pub enum Suit {
     Hearts,
     Diamonds,
     Clubs,
@@ -247,7 +251,7 @@ enum Suit {
 }
 
 #[derive(Debug)]
-enum Rank {
+pub enum Rank {
     Two,
     Three,
     Four,
