@@ -2,7 +2,7 @@ use crate::deck::Card;
 
 pub struct Player {
     pub name: String,
-    hand: Vec<Card>,
+    pub hand: Vec<Card>,
     has_folded: bool,
     current_bet: u32,
 }

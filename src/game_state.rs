@@ -11,7 +11,7 @@ pub struct GameState {
     big_blind: u8,
     deck: Deck,
     most_recent_bet: u8,
-    community_cards: Vec<Card>,
+    pub community_cards: Vec<Card>,
 }
 
 impl GameState {
