@@ -6,6 +6,8 @@ use thiserror::Error;
 pub enum DeckError {
     #[error("The deck is empty!")]
     EmptyDeck,
+    #[error("Not enough cards in the deck!")]
+    NotEnoughCards,
 }
 
 pub struct Deck {
@@ -239,6 +241,15 @@ impl Deck {
 
     pub fn draw_card(&mut self) -> Result<Card, DeckError> {
         self.cards.pop().ok_or_else(|| DeckError::EmptyDeck)
+    }
+
+    pub fn remove_from_top(&mut self, number_of_cards: usize) -> Result<Vec<Card>, DeckError> {
+        if self.cards.len() < number_of_cards {
+            Err(DeckError::NotEnoughCards)?
+        }
+
+        let start = self.cards.len() - number_of_cards;
+        Ok(self.cards.drain(start..).collect())
     }
 }
 
