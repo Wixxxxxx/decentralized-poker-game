@@ -2,25 +2,28 @@
 // the dealer changes the game state by dealing cards, managing turns
 // anything the changes the state of the game really
 
-use crate::{deck::DeckError, game_state::GameState};
+use crate::{
+    deck::{Deck, DeckError},
+    game_state::GameState,
+};
 
-pub struct Dealer<'a> {
-    state: &'a mut GameState,
+pub struct Dealer {
+    pub deck: Deck,
 }
 
-impl<'a> Dealer<'a> {
-    pub fn new(state: &'a mut GameState) -> Self {
-        Dealer { state }
+impl Dealer {
+    pub fn new() -> Self {
+        Dealer { deck: Deck::new() }
     }
 
-    pub fn distribute_cards(&mut self) -> Result<(), DeckError> {
-        let number_of_players = self.state.players.len();
+    pub fn distribute_cards(&mut self, state: &mut GameState) -> Result<(), DeckError> {
+        let number_of_players = state.play_order.len();
         for dealt in 0..number_of_players {
             let player_idx = dealt % number_of_players;
-            let card = self.state.deck.draw_card()?;
-            self.state
+            let card = self.deck.draw_card()?;
+            state
                 .players
-                .get_mut(&player_idx)
+                .get_mut(&state.play_order[player_idx])
                 .unwrap()
                 .hand
                 .push(card);
@@ -29,12 +32,15 @@ impl<'a> Dealer<'a> {
         Ok(())
     }
 
-    pub fn deal_community_cards(&mut self, number_of_cards: usize) -> Result<(), DeckError> {
-        let cards = self.state.deck.remove_from_top(number_of_cards)?;
-        self.state.community_cards.extend(cards);
+    pub fn deal_community_cards(
+        &mut self,
+        state: &mut GameState,
+        number_of_cards: usize,
+    ) -> Result<(), DeckError> {
+        let cards = self.deck.remove_from_top(number_of_cards)?;
+        state.community_cards.extend(cards);
         Ok(())
     }
 
     pub fn showdown() {}
-    pub fn take_action() {}
 }

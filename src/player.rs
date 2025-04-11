@@ -2,6 +2,9 @@ use std::collections::HashMap;
 
 use crate::deck::Card;
 
+#[derive(PartialEq, Eq, Hash)]
+pub struct PlayerId(pub usize);
+
 pub struct Player {
     pub name: String,
     pub hand: Vec<Card>,
@@ -21,10 +24,10 @@ impl Player {
 }
 
 // helper function to initialize map of players to be tracked in game state
-pub fn create_player_map(number_of_players: usize) -> HashMap<usize, Player> {
-    let mut players: HashMap<usize, Player> = HashMap::new();
+pub fn create_player_map(number_of_players: usize) -> HashMap<PlayerId, Player> {
+    let mut players: HashMap<PlayerId, Player> = HashMap::new();
     for num in 0..number_of_players {
-        players.insert(num, Player::new(format!("Player {}", num)));
+        players.insert(PlayerId(num), Player::new(format!("Player {}", num)));
     }
     players
 }
