@@ -7,14 +7,19 @@ pub struct PokerGame {
 }
 
 impl PokerGame {
+    // initializes the game
     pub fn new(number_of_players: usize) -> Self {
-        let mut state = GameState::new(number_of_players);
+        let state = GameState::new(number_of_players);
+
         PokerGame {
             state,
             engine: Dealer::new(),
         }
     }
 
+    // advances the game phase
     pub fn advance_round() {}
+
+    // manages the game loop
     pub fn run() {}
 }
