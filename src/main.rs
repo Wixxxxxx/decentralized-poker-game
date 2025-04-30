@@ -11,10 +11,10 @@ fn main() -> Result<(), Box<dyn Error>> {
 
     // get number of players and predetermined buy-in
     let number_of_players = args[1].parse::<usize>()?;
-    let ante = args[2].parse::<u8>()?;
+    let buy_in = args[2].parse::<u8>()?;
 
     // init Game
-    let poker_game = PokerGame::new();
+    let poker_game = PokerGame::new(number_of_players, buy_in);
 
     Ok(())
 }

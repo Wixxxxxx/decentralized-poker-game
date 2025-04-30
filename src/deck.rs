@@ -296,13 +296,6 @@ impl Rank {
             Rank::Ace => 14,
         }
     }
-
-    pub fn low_value(self) -> u8 {
-        match self {
-            Rank::Ace => 1,
-            _ => self.value(),
-        }
-    }
 }
 
 #[derive(Debug)]

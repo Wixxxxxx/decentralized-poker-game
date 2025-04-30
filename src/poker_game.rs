@@ -8,8 +8,8 @@ pub struct PokerGame {
 
 impl PokerGame {
     // initializes the game
-    pub fn new(number_of_players: usize) -> Self {
-        let state = GameState::new(number_of_players);
+    pub fn new(number_of_players: usize, buy_in: u8) -> Self {
+        let state = GameState::new(number_of_players, buy_in);
 
         PokerGame {
             state,

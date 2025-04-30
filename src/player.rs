@@ -1,6 +1,13 @@
-use std::collections::HashMap;
-
 use crate::deck::Card;
+use crate::game_state::GameState;
+use std::collections::HashMap;
+use thiserror::Error;
+
+#[derive(Debug, Error)]
+pub enum PlayerError {
+    #[error("Player must match current bet to check")]
+    CheckError,
+}
 
 #[derive(PartialEq, Eq, Hash)]
 pub struct PlayerId(pub usize);
@@ -19,6 +26,18 @@ impl Player {
             hand: Vec::new(),
             has_folded: false,
             current_bet: 0,
+        }
+    }
+
+    pub fn fold(&mut self) {
+        self.has_folded = true;
+    }
+
+    pub fn check(&self, state: &GameState) {
+        if self.current_bet == state.current_bet {
+            Ok(())
+        } else {
+            Err("")
         }
     }
 }
